@@ -1,3 +1,8 @@
+/**
+
+Given an undirected graph with n-vertices, calculated the minimum distance from source to all other vertices of graph using Dijkstra's
+
+*/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -6,20 +11,19 @@ void findShortDistance(vector<vector<pair<int,int>>> &g, vector<int> &distance, 
     priority_queue< pair<int, int>, vector <pair<int, int>> , greater<pair<int, int>> > pq;
     pq.push(make_pair(0, src));
     distance[src] = 0;
-    
     while(!pq.empty())
     {
-        int vertex = pq.top().second;
+        int pqtop = pq.top().second;
         pq.pop();
         
-        for(int i=0;i<g[vertex].size();i++)
+        for(auto vertex : g[pqtop])
         {
-            int adj = g[vertex][i].first;
-            int weight = g[vertex][i].second;
+            int adj = vertex.first;
+            int weight = vertex.second;
             
-            if(distance[adj]>distance[vertex]+weight)
+            if(distance[adj]>distance[pqtop]+weight)
             {
-                distance[adj] = distance[vertex]+weight;
+                distance[adj] = distance[pqtop]+weight;
                 pq.push(make_pair(distance[adj],adj));
             }
         }
@@ -46,6 +50,7 @@ int main() {
         for(int j=0;j<g[i].size();j++)
         cout<<i<<g[i][j].first<<g[i][j].second<<endl; 
     }
+
     vector<int> distance(n,INT_MAX);
     findShortDistance(g,distance,0);
     
@@ -56,3 +61,30 @@ int main() {
     }
 	return 0;
 }
+
+/**
+Input:
+7
+9
+0 1 2
+0 2 6
+1 3 5
+2 3 8
+3 4 10
+3 5 15
+4 5 6
+4 6 2
+5 6 6
+
+Output:
+
+Shortest distances
+vertex 0: distance from source is 0
+vertex 1: distance from source is 2
+vertex 2: distance from source is 6
+vertex 3: distance from source is 7
+vertex 4: distance from source is 17
+vertex 5: distance from source is 22
+vertex 6: distance from source is 19
+
+*/
